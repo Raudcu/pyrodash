@@ -11,7 +11,7 @@ class Parallelepiped:
 
     Attributes
     ----------
-    L : numpy array
+    L : float or numpy array
         x, y, z lengths of the parallelepiped sides.
     initial_vertex_position : numpy array
         x, y, z coordinates of the initial vertex position.
@@ -28,13 +28,13 @@ class Parallelepiped:
         L,
         initial_vertex_position=[0, 0, 0],
         edge_color="black",
-        edge_width=1.5,
+        edge_width=2,
         face_opacity=0,
     ):
         """
         Parameters
         ----------
-        L : list of float or numpy array
+        L : float or list of float or numpy array
             x, y, z lengths of the parallelepiped sides.
         initial_vertex_position : list of float or numpy array, optional
             x, y, z coordinates of the initial vertex position, 
@@ -48,12 +48,20 @@ class Parallelepiped:
             opacity of the faces, by default 0.
         """
 
-        self.L = np.array(L)
+        if isinstance(L, (list, np.ndarray)):
+            self.L = np.array(L)
+        else:
+            self.L = L
         self.initial_vertex_position = np.array(initial_vertex_position)
 
-        self.vertices = self.initial_vertex_position + np.array(
-            list(product([0, self.L[0]], [0, self.L[1]], [0, self.L[2]]))
-        )
+        if isinstance(self.L, np.ndarray):
+            self.vertices = self.initial_vertex_position + np.array(
+                list(product([0, self.L[0]], [0, self.L[1]], [0, self.L[2]]))
+            )
+        else:
+            self.vertices = self.initial_vertex_position + np.array(
+                list(product([0, self.L], [0, self.L], [0, self.L]))
+            )
 
         self.face_vertices = self._face_vertices_calculation()
 
