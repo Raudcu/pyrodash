@@ -12,7 +12,8 @@ class Parallelepiped:
     Attributes
     ----------
     L : float or numpy array
-        x, y, z lengths of the parallelepiped sides.
+        x, y, z lengths of the parallelepiped sides. If float, a cube of 
+        side L is built
     initial_vertex_position : numpy array
         x, y, z coordinates of the initial vertex position.
     vertices : numpy array
@@ -35,7 +36,8 @@ class Parallelepiped:
         Parameters
         ----------
         L : float or list of float or numpy array
-            x, y, z lengths of the parallelepiped sides.
+            x, y, z lengths of the parallelepiped sides. If float, a cube 
+            of side L is built.
         initial_vertex_position : list of float or numpy array, optional
             x, y, z coordinates of the initial vertex position, 
             by default [0, 0, 0].

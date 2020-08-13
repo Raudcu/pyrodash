@@ -21,11 +21,11 @@ class Tetrahedra:
         vertices coordinates of the Up and Down Tetrahedra.
     up_faces, down_faces : list of plotly go
         mesh3d plotly objects of the faces of the Up and Down Tetrahedra.
-    site_numbers : list with a plotly go
+    site_numbers : plotly go
         scatter 3d plotly object without markers, to number the sites.
     """
 
-    def __init__(self, center_up, L=np.sqrt(0.5), initial_spin=1, N=1):
+    def __init__(self, center_up, L=np.sqrt(0.5), init_count=1, N=1):
         """
         Parameters
         ----------
@@ -34,7 +34,7 @@ class Tetrahedra:
         L : float, optional
             length of the side of the cube where the Tetrahedron is
             inscribed, by default 1.
-        initial_spin : int, optional
+        init_count : int, optional
             spin from which start counting the sites, by default 1.
         N : integer, optional
             related to the opacity of the faces: the higher N is, the more
@@ -46,7 +46,7 @@ class Tetrahedra:
 
         self.up_vertices, self.down_vertices = self._vertices_calculation()
         self.up_faces, self.down_faces = self._draw_faces(N)
-        self.site_numbers = self._sites(initial_spin)
+        self.site_numbers = self._sites(init_count)
 
     def _vertices_calculation(self):
         """Calculates the vertices coordinates of the Tetrahedra.
@@ -143,8 +143,7 @@ class Tetrahedra:
             scatter 3d plotly object without markers, to number the sites.
         """
 
-        return [
-            go.Scatter3d(
+        return go.Scatter3d(
                 x=self.up_vertices[:, 0],
                 y=self.up_vertices[:, 1],
                 z=self.up_vertices[:, 2],
@@ -156,7 +155,6 @@ class Tetrahedra:
                 hoverlabel_font=dict(family="serif", size=20, color="white"),
                 showlegend=False
             )
-        ]
 
 
 if __name__ == "__main__":
@@ -169,7 +167,7 @@ if __name__ == "__main__":
 
     t = Tetrahedra([1, 1, 1])
 
-    fig = go.Figure(data=t.up_faces + t.down_faces + t.site_numbers)
+    fig = go.Figure(data=t.up_faces + t.down_faces + [t.site_numbers])
 
     external_stylesheets = ["https://codepen.io/chriddyp/pen/bWLwgP.css"]
 

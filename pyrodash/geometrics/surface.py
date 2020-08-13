@@ -61,7 +61,7 @@ class Surface(ABC):
         Parameters
         ----------
         n1, n2 : numpy array
-            coplanar vectors orthogonal to the axis (only for Cilinder and
+            coplanar vectors orthogonal to the axis (only for Cylinder and
             Cone).
         mesh_size : integer
             size `n` of the `n x n` mesh generated to calculate the
