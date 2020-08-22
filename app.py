@@ -20,11 +20,33 @@ from pyrodash.cell import UnitCell
 # App
 app = dash.Dash(external_stylesheets=[dbc.themes.FLATLY])
 
+server = app.server
+
 
 # Layout
 app.layout = html.Div(
     [
-        html.H1("Pyrodash"),
+        dbc.Row(
+            [
+                dbc.Col(html.H1("Pyrodash")),
+                dbc.Col(
+                    html.A(
+                        html.Img(
+                            src=app.get_asset_url("GitHub-Mark-32px.png"),
+                            alt="GitHub Repo",
+                            style={"float": "right", "padding-right": "15px"},
+                            id="github-logo",
+                        ),
+                        href="https://github.com/Raudcu/pyrodash",
+                        target="_blank",
+                    ),
+                    width=1,
+                ),
+                dbc.Tooltip("GitHub Repo", target="github-logo", placement="left"),
+            ],
+            justify="between",
+            align="center",
+        ),
         html.H4(
             "An interactive app for drawing the pyrochlore lattice "
             + "and configurations of the Spin Ice model."
@@ -62,12 +84,18 @@ app.layout = html.Div(
                                             size="lg",
                                             color="info",
                                             block=True,
+                                            id="upload_data_button",
                                         ),
                                         id="upload_data",
                                     ),
                                     width=5,
                                 ),
-                            ]
+                                dbc.Tooltip(
+                                    "Single column data of spin values",
+                                    target="upload_data_button",
+                                    placement="bottom",
+                                ),
+                            ], justify="start",
                         ),
                     ],
                     width={"size": 7, "offset": 1},
@@ -423,4 +451,5 @@ def download_plot(figure, relayoutData):
 
 
 if __name__ == "__main__":
-    app.run_server(debug=True)
+    app.run_server(debug=True, host="0.0.0.0", port="8050")
+
