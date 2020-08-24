@@ -18,7 +18,7 @@ from pyrodash.cell import UnitCell
 
 
 # App
-app = dash.Dash(external_stylesheets=[dbc.themes.FLATLY])
+app = dash.Dash(__name__, external_stylesheets=[dbc.themes.FLATLY])
 
 server = app.server
 
@@ -78,15 +78,17 @@ app.layout = html.Div(
                                     width=5,
                                 ),
                                 dbc.Col(
-                                    dcc.Upload(
-                                        dbc.Button(
-                                            "Upload configuration file",
-                                            size="lg",
-                                            color="info",
-                                            block=True,
-                                            id="upload_data_button",
+                                    html.Div(
+                                        dcc.Upload(
+                                            dbc.Button(
+                                                "Upload configuration file",
+                                                size="lg",
+                                                color="info",
+                                                block=True,
+                                            ),
+                                            id="upload_data",
                                         ),
-                                        id="upload_data",
+                                        id="upload_data_button",
                                     ),
                                     width=5,
                                 ),
@@ -95,7 +97,8 @@ app.layout = html.Div(
                                     target="upload_data_button",
                                     placement="bottom",
                                 ),
-                            ], justify="start",
+                            ],
+                            justify="start",
                         ),
                     ],
                     width={"size": 7, "offset": 1},
@@ -452,4 +455,3 @@ def download_plot(figure, relayoutData):
 
 if __name__ == "__main__":
     app.run_server(debug=True, host="0.0.0.0", port="8050")
-
