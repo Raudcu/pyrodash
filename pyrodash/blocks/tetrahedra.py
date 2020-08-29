@@ -1,5 +1,4 @@
 import numpy as np
-import pandas as pd
 import plotly.graph_objects as go
 
 
@@ -102,7 +101,7 @@ class Tetrahedra:
                     j=[face[1]],
                     k=[face[2]],
                     opacity=(0.15 + i * 0.15) / np.cbrt(N),
-                    facecolor=pd.Series("mediumpurple"),
+                    facecolor=["mediumpurple"],
                     hoverinfo="none",
                     showscale=False,
                 )
@@ -117,7 +116,7 @@ class Tetrahedra:
                     j=[face[1]],
                     k=[face[2]],
                     opacity=(0.15 + i * 0.15) / np.cbrt(N),
-                    facecolor=pd.Series("lightskyblue"),
+                    facecolor=["lightskyblue"],
                     hoverinfo="none",
                     showscale=False,
                 )
