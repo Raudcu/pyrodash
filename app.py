@@ -4,6 +4,7 @@ import dash
 import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output, State
+from dash.exceptions import PreventUpdate
 import dash_bootstrap_components as dbc
 
 import plotly.graph_objects as go
@@ -83,6 +84,7 @@ app.layout = html.Div(
                                             block=True,
                                             outline=True,
                                             disabled=True,
+                                            id="download_button",
                                         ),
                                         id="download_place",
                                     ),
@@ -157,7 +159,9 @@ app.layout = html.Div(
                                                 "label": str(i),
                                                 "style": {
                                                     "font-size": "15px",
-                                                    "font-family": "Lato, Helvetica Neue",
+                                                    "font-family": (
+                                                        "Lato," "Helvetica Neue"
+                                                    ),
                                                 },
                                             }
                                             for i in range(1, 5)
@@ -455,44 +459,51 @@ def cell_construction(
         Output("download_place", "children"),
         Output("generate_button", "n_clicks_timestamp"),
     ],
-    [
-        Input("generate_button", "n_clicks"),
-        Input("graph", "figure"),
-        Input("graph", "relayoutData"),
-    ],
+    [Input("generate_button", "n_clicks")],
+    [State("graph", "figure"), State("graph", "relayoutData")],
 )
-def generate_plot(n_clicks, figure, relayoutData):
+def generate_pdf(n_clicks, figure, relayoutData):
 
-    ctx = dash.callback_context
-    input_id = ctx.triggered[0]["prop_id"].split(".")[0]
-
-    if input_id == "generate_button":
+    if n_clicks:
         fmt = "pdf"
         mimetype = "application/pdf"
 
-        data = base64.b64encode(to_image(figure, format=fmt)).decode("utf-8")
+        fig = go.Figure(figure)
+        if relayoutData and "scene.camera" in relayoutData:
+            fig.update_layout(scene_camera_eye=relayoutData["scene.camera"]["eye"])
+
+        data = base64.b64encode(to_image(fig, format=fmt)).decode("utf-8")
         pdf_string = f"data:{mimetype};base64,{data}"
 
         return (
             html.A(
-                dbc.Button("Download Plot", size="lg", color="success", block=True),
+                dbc.Button(
+                    "Download Plot",
+                    size="lg",
+                    color="success",
+                    block=True,
+                    id="download_button",
+                ),
                 download="pyrodash_figure.pdf",
                 href=pdf_string,
+                style={"text-decoration": "none"}
             ),
-            0,
+            dash.no_update,
         )
     else:
-        return (
-            dbc.Button(
-                "Download Plot",
-                size="lg",
-                color="success",
-                block=True,
-                outline=True,
-                disabled=True,
-            ),
-            0,
-        )
+        raise PreventUpdate
+
+
+@app.callback(
+    [Output("download_button", "outline"), Output("download_button", "disabled")],
+    [Input("download_button", "n_clicks")],
+)
+def disable_download(n_clicks):
+
+    if n_clicks:
+        return True, True
+    else:
+        raise PreventUpdate
 
 
 if __name__ == "__main__":
