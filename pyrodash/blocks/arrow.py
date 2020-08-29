@@ -1,8 +1,8 @@
 import numpy as np
 
-from pyrodash.geometrics.cylinder import Cylinder
-from pyrodash.geometrics.cone import Cone
-from pyrodash.geometrics.circle import Circle
+from pyrodash.geometrics import Cylinder
+from pyrodash.geometrics import Cone
+from pyrodash.geometrics import Circle
 import pyrodash.utils.linalg as linalg
 
 

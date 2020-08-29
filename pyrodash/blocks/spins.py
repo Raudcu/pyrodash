@@ -1,6 +1,6 @@
 import numpy as np
 
-from pyrodash.blocks.arrow import Arrow
+from pyrodash.blocks import Arrow
 
 
 class Spins:

@@ -1,4 +1,4 @@
-from pyrodash.geometrics.sphere import Sphere
+from pyrodash.geometrics import Sphere
 
 
 class Monopole(Sphere):

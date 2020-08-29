@@ -14,7 +14,7 @@ import pandas as pd
 import json
 import io
 
-from pyrodash.cell import UnitCell
+from pyrodash import UnitCell
 
 
 # App
