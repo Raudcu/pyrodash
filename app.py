@@ -56,32 +56,43 @@ app.layout = html.Div(
                 dbc.Col(
                     [
                         dbc.Row(
-                            dcc.Loading(dcc.Graph(id="graph"), type="graph"),
-                            style={"padding-bottom": "10px"},
+                            dcc.Loading(dcc.Graph(id="graph"), type="cube"),
+                            style={"padding-bottom": "5px"},
                         ),
                         dbc.Row(
                             [
                                 dbc.Col(
                                     dcc.Loading(
-                                        html.A(
-                                            dbc.Button(
-                                                "Download Plot",
-                                                size="lg",
-                                                color="primary",
-                                                block=True,
-                                            ),
-                                            download="pyrodash_figure.pdf",
-                                            id="download_link",
+                                        dbc.Button(
+                                            "Generate pdf",
+                                            size="lg",
+                                            color="primary",
+                                            block=True,
+                                            id="generate_button",
                                         ),
                                         type="dot",
                                     ),
-                                    width=5,
+                                    width=3,
+                                ),
+                                dbc.Col(
+                                    html.Div(
+                                        dbc.Button(
+                                            "Download Plot",
+                                            size="lg",
+                                            color="success",
+                                            block=True,
+                                            outline=True,
+                                            disabled=True,
+                                        ),
+                                        id="download_place",
+                                    ),
+                                    width=3,
                                 ),
                                 dbc.Col(
                                     html.Div(
                                         dcc.Upload(
                                             dbc.Button(
-                                                "Upload configuration file",
+                                                "Upload config file",
                                                 size="lg",
                                                 color="info",
                                                 block=True,
@@ -90,7 +101,7 @@ app.layout = html.Div(
                                         ),
                                         id="upload_data_button",
                                     ),
-                                    width=5,
+                                    width=4,
                                 ),
                                 dbc.Tooltip(
                                     "Single column data of spin values",
@@ -98,6 +109,7 @@ app.layout = html.Div(
                                     placement="bottom",
                                 ),
                             ],
+                            align="center",
                             justify="start",
                         ),
                     ],
@@ -439,18 +451,48 @@ def cell_construction(
 
 
 @app.callback(
-    Output("download_link", "href"),
-    [Input("graph", "figure"), Input("graph", "relayoutData")],
+    [
+        Output("download_place", "children"),
+        Output("generate_button", "n_clicks_timestamp"),
+    ],
+    [
+        Input("generate_button", "n_clicks"),
+        Input("graph", "figure"),
+        Input("graph", "relayoutData"),
+    ],
 )
-def download_plot(figure, relayoutData):
+def generate_plot(n_clicks, figure, relayoutData):
 
-    fmt = "pdf"
-    mimetype = "application/pdf"
+    ctx = dash.callback_context
+    input_id = ctx.triggered[0]["prop_id"].split(".")[0]
 
-    data = base64.b64encode(to_image(figure, format=fmt)).decode("utf-8")
-    pdf_string = f"data:{mimetype};base64,{data}"
+    if input_id == "generate_button":
+        fmt = "pdf"
+        mimetype = "application/pdf"
 
-    return pdf_string
+        data = base64.b64encode(to_image(figure, format=fmt)).decode("utf-8")
+        pdf_string = f"data:{mimetype};base64,{data}"
+
+        return (
+            html.A(
+                dbc.Button("Download Plot", size="lg", color="success", block=True),
+                download="pyrodash_figure.pdf",
+                href=pdf_string,
+            ),
+            0,
+        )
+    else:
+        return (
+            dbc.Button(
+                "Download Plot",
+                size="lg",
+                color="success",
+                block=True,
+                outline=True,
+                disabled=True,
+            ),
+            0,
+        )
 
 
 if __name__ == "__main__":
