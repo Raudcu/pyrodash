@@ -76,7 +76,7 @@ app.layout = html.Div(
                                     width=3,
                                 ),
                                 dbc.Col(
-                                    html.Div(
+                                    html.A(
                                         dbc.Button(
                                             "Download Plot",
                                             size="lg",
@@ -86,7 +86,9 @@ app.layout = html.Div(
                                             disabled=True,
                                             id="download_button",
                                         ),
-                                        id="download_place",
+                                        download="pyrodash_figure.pdf",
+                                        style={"text-decoration": "none"},
+                                        id="download_hyperlink",
                                     ),
                                     width=3,
                                 ),
@@ -456,15 +458,20 @@ def cell_construction(
 
 @app.callback(
     [
-        Output("download_place", "children"),
+        Output("download_hyperlink", "href"),
+        Output("download_button", "outline"),
+        Output("download_button", "disabled"),
         Output("generate_button", "n_clicks_timestamp"),
     ],
-    [Input("generate_button", "n_clicks")],
+    [Input("generate_button", "n_clicks"), Input("download_button", "n_clicks")],
     [State("graph", "figure"), State("graph", "relayoutData")],
 )
-def generate_pdf(n_clicks, figure, relayoutData):
+def generate_pdf(n_clicks_generate, n_clicks_download, figure, relayoutData):
 
-    if n_clicks:
+    ctx = dash.callback_context
+    input_id = ctx.triggered[0]["prop_id"].split(".")[0]
+
+    if input_id == "generate_button" and n_clicks_generate:
         fmt = "pdf"
         mimetype = "application/pdf"
 
@@ -475,33 +482,11 @@ def generate_pdf(n_clicks, figure, relayoutData):
         data = base64.b64encode(to_image(fig, format=fmt)).decode("utf-8")
         pdf_string = f"data:{mimetype};base64,{data}"
 
-        return (
-            html.A(
-                dbc.Button(
-                    "Download Plot",
-                    size="lg",
-                    color="success",
-                    block=True,
-                    id="download_button",
-                ),
-                download="pyrodash_figure.pdf",
-                href=pdf_string,
-                style={"text-decoration": "none"}
-            ),
-            dash.no_update,
-        )
-    else:
-        raise PreventUpdate
+        return pdf_string, False, False, dash.no_update
 
+    elif input_id == "download_button" and n_clicks_download:
+        return "", True, True, dash.no_update
 
-@app.callback(
-    [Output("download_button", "outline"), Output("download_button", "disabled")],
-    [Input("download_button", "n_clicks")],
-)
-def disable_download(n_clicks):
-
-    if n_clicks:
-        return True, True
     else:
         raise PreventUpdate
 
