@@ -49,7 +49,7 @@ class Arrow:
         cone_cylinder_radius_ratio=1.8,
         pivot="mid",
         surface_color="#636efa",
-        mesh_size=25,
+        mesh_size=10,
     ):
         """
         Parameters
