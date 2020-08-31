@@ -23,7 +23,7 @@ class Sphere(Surface):
         surface plotly object of the drawn sphere.
     """
 
-    def __init__(self, center, radius, surface_color="#636efa", mesh_size=25):
+    def __init__(self, center, radius, surface_color="#636efa", mesh_size=50):
         """
         Parameters
         ----------
