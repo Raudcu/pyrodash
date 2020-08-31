@@ -12,4 +12,4 @@ Website: <https://pyrodash.azurewebsites.net/> (because it's deployed with a fre
 * Change a configuration by double clicking on a spin (it'll probably have performance issues).
 * Specify width for different screen sizes.
 * Be able to change the view by choosing from a list of typical orientations.
-* Include clientside callback to improve performance of the generate_pdf callback.
+* Include clientside callback to improve performance of the generate pdf callback.
