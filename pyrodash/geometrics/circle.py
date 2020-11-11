@@ -1,5 +1,4 @@
 import numpy as np
-from scipy.linalg import norm
 import plotly.graph_objects as go
 
 import pyrodash.utils.linalg as linalg
@@ -54,7 +53,7 @@ class Circle:
         self.center = np.array(center)
         self.radius = radius
 
-        self.axis = np.array(axis) / norm(axis)
+        self.axis = np.array(axis) / np.linalg.norm(axis)
 
         if np.all(n1 == 0) or np.all(n2 == 0):
             n1, n2 = linalg.perpendicular_plane_vectors(self.axis)

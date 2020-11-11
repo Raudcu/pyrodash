@@ -1,5 +1,4 @@
 import numpy as np
-from scipy.linalg import norm
 
 from pyrodash.geometrics.surface import Surface
 import pyrodash.utils.linalg as linalg
@@ -68,7 +67,7 @@ class Cone(Surface):
         self.base_radius = base_radius
 
         self.length = length
-        self.axis = np.array(axis) / norm(axis)
+        self.axis = np.array(axis) / np.linalg.norm(axis)
 
         self.tip = self.base_center + self.axis * self.length
 

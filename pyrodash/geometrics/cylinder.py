@@ -1,5 +1,4 @@
 import numpy as np
-from scipy.linalg import norm
 
 from pyrodash.geometrics.surface import Surface
 import pyrodash.utils.linalg as linalg
@@ -70,7 +69,7 @@ class Cylinder(Surface):
         self.radius = radius
 
         self.length = length
-        self.axis = np.array(axis) / norm(axis)
+        self.axis = np.array(axis) / np.linalg.norm(axis)
 
         self.base_center = self.center - self.length / 2 * self.axis
         self.top_center = self.center + self.length / 2 * self.axis

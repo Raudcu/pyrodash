@@ -5,7 +5,6 @@
 """
 
 import numpy as np
-from scipy.linalg import norm
 
 
 def perpendicular_plane_vectors(vector):
@@ -34,7 +33,7 @@ def perpendicular_plane_vectors(vector):
         not_vector = np.array([0, 1, 0])
 
     n1 = np.cross(vector, not_vector)
-    n1 = n1 / norm(n1)
+    n1 = n1 / np.linalg.norm(n1)
 
     n2 = np.cross(vector, n1)
 
