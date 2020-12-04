@@ -297,9 +297,7 @@ def configuration_data(config_selection, contents):
 
         decoded = base64.b64decode(content_string)
 
-        df = pd.read_csv(io.StringIO(decoded.decode("utf-8")), header=None)
-
-        spin_values = df.squeeze()
+        spin_values = pd.read_csv(io.StringIO(decoded.decode("utf-8")), header=None, squeeze=True)
 
     else:
 
