@@ -7,8 +7,8 @@ class Spins:
     """
     Class to build and draw the spins of an Up Tetrahedron.
 
-    The class generates, from the spin values passed to its constructor, 
-    the axis of the spins and their respectives colors, and use the 
+    The class generates, from the spin values passed to its constructor,
+    the axis of the spins and their respectives colors, and use the
     Arrow class to build and draw the four spins.
 
     ...
@@ -16,10 +16,10 @@ class Spins:
     Attributes
     ----------
     base_spin_axes : numpy array
-        class attribute with base vectors of the spin axes of an Up 
+        class attribute with base vectors of the spin axes of an Up
         Tetrahedron.
     positions : numpy array
-        contains arrays with the x, y, z coordinates of each spin 
+        contains arrays with the x, y, z coordinates of each spin
         position.
     s1234 : numpy array
         spin values.
@@ -42,7 +42,7 @@ class Spins:
         Parameters
         ----------
         positions : numpy array
-            contains arrays with the x, y, z coordinates of each spin 
+            contains arrays with the x, y, z coordinates of each spin
             position.
         s1234 : list of int or numpy array
             spin values.
@@ -60,7 +60,7 @@ class Spins:
         self.colors = ["blue" if s == 1 else "black" for s in self.s1234]
 
         self.arrows = [
-            Arrow(pos, 0.036, 0.6, axis, surface_color=color)
+            Arrow(pos, 0.013, 0.22, axis, surface_color=color)
             for pos, axis, color in zip(self.positions, self.axes, self.colors)
         ]
 
@@ -82,7 +82,7 @@ if __name__ == "__main__":
             [-0.125, -0.125, 0.125],
             [-0.125, 0.125, -0.125],
         ]
-    ) / (np.sqrt(2) / 4)
+    )
 
     s = Spins(positions, [1, -1, 1, 1])
 

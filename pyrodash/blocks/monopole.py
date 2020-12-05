@@ -42,17 +42,17 @@ class Monopole(Sphere):
 
         # Simple monopole
         elif self.charge == +2:
-            super().__init__(center, 0.15, surface_color="#02590f")
+            super().__init__(center, 0.052, surface_color="#02590f")
 
         elif self.charge == -2:
-            super().__init__(center, 0.15, surface_color="#be0119")
+            super().__init__(center, 0.052, surface_color="#be0119")
 
         # Double monopole
         elif self.charge == +4:
-            super().__init__(center, 0.2, surface_color="#01ff07")
+            super().__init__(center, 0.07, surface_color="#01ff07")
 
         elif self.charge == -4:
-            super().__init__(center, 0.2, surface_color="red")
+            super().__init__(center, 0.07, surface_color="red")
 
 
 if __name__ == "__main__":

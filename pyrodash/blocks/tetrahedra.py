@@ -15,7 +15,7 @@ class Tetrahedra:
         x, y, z coordinates of the center of the Up Tetrahedron.
     L : float
         length of the side of the cube where the Tetrahedron is inscribed,
-        by default sqrt(0.5).
+        by default 0.25.
     up_vertices, down_vertices : numpy array
         vertices coordinates of the Up and Down Tetrahedra.
     up_faces, down_faces : list of plotly go
@@ -24,7 +24,7 @@ class Tetrahedra:
         scatter 3d plotly object without markers, to number the sites.
     """
 
-    def __init__(self, center_up, L=np.sqrt(0.5), init_count=1, N=1):
+    def __init__(self, center_up, L=0.25, init_count=1, N=1):
         """
         Parameters
         ----------
@@ -32,7 +32,7 @@ class Tetrahedra:
             x, y, z coordinates of the center of the Up Tetrahedron.
         L : float, optional
             length of the side of the cube where the Tetrahedron is
-            inscribed, by default 1.
+            inscribed, by default 0.25.
         init_count : int, optional
             spin from which start counting the sites, by default 1.
         N : integer, optional

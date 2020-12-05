@@ -10,7 +10,8 @@ from pyrodash.blocks.monopole import Monopole
 
 class UnitCell:
     """
-    Class to build a unit cell of the system.
+    Class to build a unit cell of the system. The lattice constant is
+    assumed to be 1.
 
     ...
 
@@ -52,8 +53,8 @@ class UnitCell:
 
         self.up_centers = (
             0.5 * np.array([[0, 0, 0], [1, 1, 0], [0, 1, 1], [1, 0, 1]]) + self.ijk
-        ) / (np.sqrt(2) / 4)
-        self.down_centers = self.up_centers + np.array([1, 1, 1]) / np.sqrt(2)
+        )
+        self.down_centers = self.up_centers + np.array([1, 1, 1]) / 4
 
         _L = round((len(spin_values) / 16) ** (1 / 3))
         self.initial_spin = (
@@ -62,18 +63,18 @@ class UnitCell:
         self.spin_values = spin_values[self.initial_spin : self.initial_spin + 16]
 
         # Cube
-        self.cube = Parallelepiped(np.sqrt(8), self.ijk * np.sqrt(8))
+        self.cube = Parallelepiped(1., self.ijk)
 
         # Tetrahedra
         self.tetrahedra = [Tetrahedra(center, init_count=i) for center,i in zip(self.up_centers, range(1, 17, 4))]
 
         # Individual cubes
         self.up_cubes = [
-            Parallelepiped(np.sqrt(0.5), t.up_vertices[0] - np.sqrt([0.5, 0.5, 0.5]))
+            Parallelepiped(.25, t.up_vertices[0] - [.25, .25, .25])
             for t in self.tetrahedra
         ]
         self.down_cubes = [
-            Parallelepiped(np.sqrt(0.5), t.up_vertices[0]) for t in self.tetrahedra
+            Parallelepiped(.25, t.up_vertices[0]) for t in self.tetrahedra
         ]
 
         # Spins
