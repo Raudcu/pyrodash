@@ -439,7 +439,7 @@ def cell_construction(
         layout.scene.aspectmode = "manual"
         layout.scene.aspectratio = dict(x=1.5, y=1.5, z=1.5)
 
-        if tetra_count == 2:
+        if cube == "n" and tetra_count == 2:
             if which_tetras == "u" or which_tetras == "d":
                 layout.scene.aspectratio.z = 0.5
             else:
