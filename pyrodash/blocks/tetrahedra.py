@@ -71,7 +71,7 @@ class Tetrahedra:
 
     def _draw_faces(self, N):
         """Generates the plotly 3d meshes for the faces of the Tetrahedra.
-        
+
         It uses the vertices of the Tetrahedra to build the mesh for each
         face and then add it to the corresponding list.
 
@@ -92,34 +92,58 @@ class Tetrahedra:
         down_faces = []
 
         for i, face in enumerate([(0, 1, 2), (0, 2, 3), (0, 3, 1), (1, 2, 3)]):
-            up_faces.append(
-                go.Mesh3d(
-                    x=self.up_vertices[:, 0],
-                    y=self.up_vertices[:, 1],
-                    z=self.up_vertices[:, 2],
-                    i=[face[0]],
-                    j=[face[1]],
-                    k=[face[2]],
-                    opacity=(0.15 + i * 0.15) / np.cbrt(N),
-                    facecolor=["mediumpurple"],
-                    hoverinfo="none",
-                    showscale=False,
-                )
+            up_faces.extend(
+                [
+                    go.Mesh3d(
+                        x=self.up_vertices[:, 0],
+                        y=self.up_vertices[:, 1],
+                        z=self.up_vertices[:, 2],
+                        i=[face[0]],
+                        j=[face[1]],
+                        k=[face[2]],
+                        opacity=(0.35 - i * 0.07) / np.cbrt(N),
+                        facecolor=["mediumpurple"],
+                        hoverinfo="none",
+                        showscale=False,
+                    ),
+                    go.Scatter3d(
+                        x=self.up_vertices[face, 0],
+                        y=self.up_vertices[face, 1],
+                        z=self.up_vertices[face, 2],
+                        mode="lines",
+                        line=dict(color="black", width=1),
+                        opacity=0.1 / np.cbrt(N),
+                        hoverinfo="none",
+                        showlegend=False,
+                    ),
+                ]
             )
 
-            down_faces.append(
-                go.Mesh3d(
-                    x=self.down_vertices[:, 0],
-                    y=self.down_vertices[:, 1],
-                    z=self.down_vertices[:, 2],
-                    i=[face[0]],
-                    j=[face[1]],
-                    k=[face[2]],
-                    opacity=(0.15 + i * 0.15) / np.cbrt(N),
-                    facecolor=["lightskyblue"],
-                    hoverinfo="none",
-                    showscale=False,
-                )
+            down_faces.extend(
+                [
+                    go.Mesh3d(
+                        x=self.down_vertices[:, 0],
+                        y=self.down_vertices[:, 1],
+                        z=self.down_vertices[:, 2],
+                        i=[face[0]],
+                        j=[face[1]],
+                        k=[face[2]],
+                        opacity=(0.35 - i * 0.07) / np.cbrt(N),
+                        facecolor=["lightskyblue"],
+                        hoverinfo="none",
+                        showscale=False,
+                    ),
+                    go.Scatter3d(
+                        x=self.down_vertices[face, 0],
+                        y=self.down_vertices[face, 1],
+                        z=self.down_vertices[face, 2],
+                        mode="lines",
+                        line=dict(color="black", width=1),
+                        opacity=0.1 / np.cbrt(N),
+                        hoverinfo="none",
+                        showlegend=False,
+                    ),
+                ]
             )
 
         return up_faces, down_faces
@@ -143,17 +167,17 @@ class Tetrahedra:
         """
 
         return go.Scatter3d(
-                x=self.up_vertices[:, 0],
-                y=self.up_vertices[:, 1],
-                z=self.up_vertices[:, 2],
-                mode="markers",
-                marker_color="mediumpurple",
-                opacity=0,
-                hoverinfo="text",
-                hovertext=[initial_spin + i for i in range(4)],
-                hoverlabel_font=dict(family="serif", size=20, color="white"),
-                showlegend=False
-            )
+            x=self.up_vertices[:, 0],
+            y=self.up_vertices[:, 1],
+            z=self.up_vertices[:, 2],
+            mode="markers",
+            marker_color="mediumpurple",
+            opacity=0,
+            hoverinfo="text",
+            hovertext=[initial_spin + i for i in range(4)],
+            hoverlabel_font=dict(family="serif", size=20, color="white"),
+            showlegend=False,
+        )
 
 
 if __name__ == "__main__":
