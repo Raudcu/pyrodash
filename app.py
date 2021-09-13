@@ -19,7 +19,7 @@ from pyrodash import UnitCell
 
 
 # App
-app = dash.Dash(__name__, external_stylesheets=[dbc.themes.FLATLY])
+app = dash.Dash(__name__,  title="Pyrodash", external_stylesheets=[dbc.themes.FLATLY])
 
 server = app.server
 
